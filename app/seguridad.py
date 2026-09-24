@@ -12,9 +12,10 @@ oauth2 = OAuth2PasswordBearer(tokenUrl="/login")
 
 
 def crear_token(usuario):
+    vence = datetime.now(timezone.utc) + timedelta(minutes=60)
     datos = {
-        "Usuario": usuario,
-        "Exp": datetime.now(timezone.utc) + timedelta(minutes=60)
+        "sub": usuario,
+        "exp": int(vence.timestamp())
     }
     return jwt.encode(datos, CLAVE, algorithm="HS256")
 
